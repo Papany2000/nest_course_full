@@ -15,6 +15,7 @@ import { User } from './users/user.model';
       load: [appConfig], //Импортируем файл конфигурации
       isGlobal: true,
     }),
+    // регистрируем модуль для асинхронной работы с базой данных
     SequelizeModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -25,8 +26,8 @@ import { User } from './users/user.model';
         username: configService.get('DB_USER') || 'postgres',
         password: configService.get('DB_PASSWORD') || '1961qwer',
         database: configService.get('DB_NAME') || 'postgres',
-        autoLoadModels: true,
-        synchronize: true,
+        autoLoadModels: true, // Автоматическая загрузка моделей
+        synchronize: false, // Отключим автоматическую синхронизацию (используем миграции!)
         models: [User],
       }),
     }),

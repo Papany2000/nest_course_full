@@ -10,6 +10,10 @@ export class CreateUserDTO {
   @IsString()
   password: string;
 
+  @ApiProperty({ example: 'url', description: 'url аватара' })
+  @IsString()
+  avatarUrl: string;
+
   @HasMany(() => RefreshToken)
   refreshTokens: RefreshToken[]; // Связь один-ко-многим с RefreshToken
 }

@@ -28,18 +28,20 @@ export class AuthService {
     return {
       id: user.id,
       email: user.email,
+      avatarUrl: user.avatarUrl,
     };
   }
 
-  async login(user): Promise<{ accessToken: any; refreshToken: any }> {
+  async login(
+    user: CreateUserDTO,
+  ): Promise<{ accessToken: any; refreshToken: any; newUser: any }> {
     const newUser = await this.validateUser(user.email, user.password);
     if (!newUser) {
-      throw new UnauthorizedException('User already logged in');
+      throw new UnauthorizedException('Invalid credentials');
     }
     const accessToken = await this.generateAccessToken(newUser);
     const refreshToken = await this.generateRefreshToken(newUser);
-    console.log(accessToken, refreshToken);
-    return { accessToken, refreshToken };
+    return { accessToken, refreshToken, newUser };
   }
 
   async logout(refreshToken) {
